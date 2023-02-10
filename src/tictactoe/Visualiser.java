@@ -1,3 +1,5 @@
+package tictactoe;
+
 public class Visualiser {
     public void draw(Board board) {
         //TODO: draw board
