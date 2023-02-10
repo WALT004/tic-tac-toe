@@ -1,3 +1,5 @@
+package tictactoe;
+
 public class TicTacToe {
 
     private Player player1;
@@ -5,6 +7,7 @@ public class TicTacToe {
     private Input input;
     private Board board;
     private Visualiser visualiser;
+    private int boardSize = 3;
 
     public TicTacToe() {
         input = new Input();
@@ -29,7 +32,7 @@ public class TicTacToe {
     }
 
     private void initBoard() {
-        board = new Board();
+        board = new Board(boardSize);
     }
 
     private void startGame() {
@@ -40,7 +43,6 @@ public class TicTacToe {
             visualiser.draw(board);
             doStep(currentPlayer);
         }
-
 
     }
 

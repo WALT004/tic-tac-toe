@@ -1,3 +1,5 @@
+package tictactoe;
+
 import lombok.Getter;
 import lombok.Setter;
 

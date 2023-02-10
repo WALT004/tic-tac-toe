@@ -1,4 +1,6 @@
-public class Easy extends Player {
+package tictactoe;
+
+public class Medium extends Player {
     @Override
     public Move getMove() {
         return null;
