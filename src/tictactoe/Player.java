@@ -8,6 +8,7 @@ import lombok.Setter;
 public abstract class Player {
 
     private  Player nextPlayer;
+    private BoardElement boardElement;
 
     public abstract Move getMove();
 
