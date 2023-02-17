@@ -51,11 +51,10 @@ public class TicTacToe {
         Move move;
         do {
             move = currentPlayer.getMove();
-            isValidMove = board.isValidMove(move);
+            isValidMove = board.setMove(move);
             if (!isValidMove) {
                 visualiser.message("error message");
             }
         } while (!isValidMove);
-        board.setMove(move);
     }
 }
