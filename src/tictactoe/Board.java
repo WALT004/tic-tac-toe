@@ -1,7 +1,7 @@
 package tictactoe;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Board {
@@ -12,18 +12,38 @@ public class Board {
 	private int winSize = 3;
 
 	private Move lastMove;
+
+	private Map<BoardElement, String> winPattern = new HashMap<>();
 	
     public Board(int boardSize) {
+		this.boardSize = boardSize;
+	    validateSize();
+	    initBoard();
+	    initPattern(BoardElement.TIC);
+	    initPattern(BoardElement.TAC);
+	}
+
+	private void validateSize() {
 		if (boardSize < 3) {
 			throw new IllegalArgumentException("The table should be at least 3x3");
 		}
-    	this.boardSize = boardSize;
-    	board = new BoardElement[boardSize][boardSize];
-    	for (int i = 0; i < boardSize ; i++) {
-    		for (int j = 0; j < boardSize ; j++) {
-    			board[i][j] = BoardElement.EMPTY;
-    		}
-    	}
+	}
+
+	private void initBoard() {
+		board = new BoardElement[boardSize][boardSize];
+		for (int i = 0; i < boardSize; i++) {
+			for (int j = 0; j < boardSize; j++) {
+				board[i][j] = BoardElement.EMPTY;
+			}
+		}
+	}
+
+	private void initPattern(BoardElement element) {
+		StringBuilder pattern = new StringBuilder();
+		for(int i= 0; i< winSize; i++){
+			pattern.append(element.name());
+		}
+		winPattern.put(element, pattern.toString());
 	}
 
 	public Board() {
@@ -34,10 +54,49 @@ public class Board {
 		if (Objects.isNull(lastMove)) {
 			return false;
 		}
-		return true; //TODO implement
+		return checkVerticallyFromLastMove() ||
+		checkHorizontallyFromLastMove() ||
+		checkLeftDiagonalFromLastMove() ||
+		checkRightDiagonalFromLastMove();
 	}
 
-    private boolean isValidMove(Move move) {
+	private boolean checkRightDiagonalFromLastMove() {
+		return false;//Todo
+	}
+
+	private boolean checkLeftDiagonalFromLastMove() {
+		return false;//Todo
+	}
+
+	private boolean checkHorizontallyFromLastMove() {
+		int rangeStart = Math.max(lastMove.getRow() - (winSize-1), 0);
+		int rangeEnd = Math.min(lastMove.getRow() + (winSize-1), boardSize -1);
+		StringBuilder lineElements = new StringBuilder();
+
+		for(int i= rangeStart; i<= rangeEnd; i++){
+			lineElements.append(board[i][lastMove.getColumn()].name());
+		}
+
+		return lineElements.toString().contains(getBoardElementFromLastMove());
+	}
+
+	private boolean checkVerticallyFromLastMove() {
+		int rangeStart = Math.max(lastMove.getColumn() - (winSize-1), 0);
+		int rangeEnd = Math.min(lastMove.getColumn() + (winSize-1), boardSize -1);
+		StringBuilder lineElements = new StringBuilder();
+
+		for(int i= rangeStart; i<= rangeEnd; i++){
+			lineElements.append(board[lastMove.getRow()][i].name());
+		}
+
+		return lineElements.toString().contains(getBoardElementFromLastMove());
+	}
+
+	private String getBoardElementFromLastMove() {
+		return winPattern.get(lastMove.getPlayer().getBoardElement());
+	}
+
+	private boolean isValidMove(Move move) {
 		if (isCoordinateOffBoard(move.getColumn()) && isCoordinateOffBoard(move.getRow())) {
 			return false;
 		}
