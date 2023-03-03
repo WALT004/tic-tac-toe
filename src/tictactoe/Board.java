@@ -61,7 +61,28 @@ public class Board {
 	}
 
 	private boolean checkRightDiagonalFromLastMove() {
-		return false;//Todo
+		int rangeStartX = lastMove.getRow()-(winSize-1);
+		int rangeStartY = lastMove.getColumn()-(winSize-1);
+		if(rangeStartX < 0 || rangeStartY < 0) {
+			int correction = Math.abs(Math.min(rangeStartX,rangeStartY));
+			rangeStartX += correction;
+			rangeStartY += correction;
+		}
+		int rangeEndX = lastMove.getRow() + (winSize-1);
+		int rangeEndY = lastMove.getColumn() + (winSize-1);
+		if(rangeEndX > boardSize-1 || rangeEndY > boardSize -1) {
+			int correction = Math.max(rangeEndX,rangeEndY)-boardSize-1;
+			rangeEndX -= correction;
+			rangeEndY -= correction;
+		}
+
+		StringBuilder lineElements = new StringBuilder();
+
+		for(int i = rangeStartX,j = rangeStartY; i<= rangeEndX || j <= rangeEndY; i++,j++) {
+			lineElements.append(board[i][j].name());
+		}
+
+		return lineElements.toString().contains(getBoardElementFromLastMove());
 	}
 
 	private boolean checkLeftDiagonalFromLastMove() {
