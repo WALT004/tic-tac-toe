@@ -1,9 +1,12 @@
 package tictactoe;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@Getter
 public class Board {
 	
 	private BoardElement[][] board;
@@ -86,7 +89,28 @@ public class Board {
 	}
 
 	private boolean checkLeftDiagonalFromLastMove() {
-		return false;//Todo
+		int rangeStartX = lastMove.getRow()-(winSize-1);
+		int rangeStartY = lastMove.getColumn() + (winSize-1);
+		if(rangeStartX < 0 || rangeStartY > boardSize -1) {
+			int correction = Math.max(Math.abs(rangeStartX),rangeStartY-boardSize-1);
+			rangeStartX += correction;
+			rangeStartY -= correction;
+		}
+		int rangeEndX = lastMove.getRow() + (winSize-1);
+		int rangeEndY = lastMove.getColumn()-(winSize-1);
+		if(rangeEndX > boardSize-1 || rangeEndY < 0) {
+			int correction = Math.max(rangeEndX-boardSize-1,Math.abs(rangeEndY));
+			rangeEndX -= correction;
+			rangeEndY += correction;
+		}
+
+		StringBuilder lineElements = new StringBuilder();
+
+		for(int i = rangeStartX,j = rangeStartY; i<= rangeEndX || j >= rangeEndY; i++,j--) {
+			lineElements.append(board[i][j].name());
+		}
+
+		return lineElements.toString().contains(getBoardElementFromLastMove());
 	}
 
 	private boolean checkHorizontallyFromLastMove() {

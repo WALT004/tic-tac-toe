@@ -53,7 +53,7 @@ public class TicTacToe {
             move = currentPlayer.getMove();
             isValidMove = board.setMove(move);
             if (!isValidMove) {
-                visualiser.message("error message");
+                visualiser.invalidMoveMessage(move);
             }
         } while (!isValidMove);
     }

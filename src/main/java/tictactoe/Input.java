@@ -1,12 +1,16 @@
 package tictactoe;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Scanner;
 import java.util.stream.Stream;
 
 public class Input {
+
+	//TODO create singleton
 	
-	private static Scanner input = new Scanner(System.in);
-	
+	private static final Scanner input = new Scanner(System.in);
+
     public Player getPlayerType(String player) {
     	System.out.println("Please select type for " + player);
     	Stream.of(PlayerType.values()).forEach(System.out::println);
@@ -20,4 +24,15 @@ public class Input {
     		}
     	}
     }
+
+	public int getMove() {
+		while (true) {
+			String userEnteredMove = input.next();
+			try {
+				return Integer.parseInt(userEnteredMove);
+			} catch (NumberFormatException e) {
+				//TODO print error message
+			}
+		}
+	}
 }
